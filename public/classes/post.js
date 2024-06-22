@@ -7,7 +7,7 @@ export class Post {
         this.title = title;
         this.author = author;
         this.content = content;
-        this.image = image;
+        this.image = "uploads/default_image.png";
         this.created = formatDateTime();
         this.updated = null;
     }
@@ -35,13 +35,6 @@ export class Post {
      */
     set newcontent(newContent){
         this.content = newContent;
-    }
-
-    /**
-     * @param {any} newImage
-     */
-    set newimage(newImage){
-        this.image = newImage;
     }
 
     /**

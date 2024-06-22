@@ -38,7 +38,6 @@ export function getItem(items, itemId) {
 export function deletePost(items, itemId) {
   for(let i = 0; i<items.length; i++){
     if (items[i].id === itemId){
-      deleteImageFromFolder(`public/${items[i].image}`);
       items = items.filter(item => item.id !== itemId);
       console.log(`Deleted item: ${itemId}`);
       return items;
@@ -50,16 +49,6 @@ export function deletePost(items, itemId) {
   }
 }
 
-export function deleteImageFromFolder(filePath){
-  fs.unlink(filePath, (err) => {
-    if (err) {
-        console.error(`Error deleting image: ${err}`);
-        return;
-    }
-    console.log(`Image ${filePath} deleted successfully`);
-});
-}
-
 
 export function checkAndUpdateChanges(items, itemId, postTitleNew, postAuthorNew, postContentNew, postImageNew) {
   for(let i = 0; i<items.length; i++){
@@ -67,7 +56,7 @@ export function checkAndUpdateChanges(items, itemId, postTitleNew, postAuthorNew
 
       let flag = false;
       
-      if(postTitleNew !== items[i].title || postAuthorNew !== items[i].author || postContentNew !== items[i].content || (postImageNew !== null && postImageNew !== items[i].image)){
+      if(postTitleNew !== items[i].title || postAuthorNew !== items[i].author || postContentNew !== items[i].content){
         flag = true;
       }
 
@@ -79,9 +68,6 @@ export function checkAndUpdateChanges(items, itemId, postTitleNew, postAuthorNew
       }
       if(postContentNew !== items[i].content){
         items[i].newcontent = postContentNew;
-      }
-      if(postImageNew !== null && postImageNew !== items[i].image){
-        items[i].newimage = postImageNew;
       }
       if(flag){
         items[i].newupdated = formatDateTime();

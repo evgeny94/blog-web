@@ -1,6 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { formatDateTime, getItem, deletePost, checkAndUpdateChanges } from "./public/functions/functions.js";
@@ -13,19 +12,6 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = 3000;
-
-// Set up Multer storage configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-      cb(null, path.join(__dirname, 'public/uploads')); // Save to 'public/uploads' directory
-      console.log(path.join(__dirname, 'public/uploads'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname); // Use the original file name
-}
-});
-
-const upload = multer({ storage: storage });
 
 
 var posts = [
@@ -73,34 +59,29 @@ app.get("/", (req, res) => {
   res.render("index.ejs", { posts });  
 });
 
-app.post('/submit', upload.single('post-image'), (req, res) => {
+app.post('/submit', (req, res) => {
 
-  // console.log('Form data:', req.body); // Log form data
-  // console.log('File data:', req.file); // Log file data
+  console.log('Form data:', req.body); // Log form data
 
   const { 'post-title': postTitle, 'post-author': postAuthor, 'post-content': postContent } = req.body;
-  const postImage = req.file ? "uploads/" + req.file.filename : null;
 
   // Create a new post object
-  const post = new Post(postTitle, postAuthor, postContent, postImage);
+  const post = new Post(postTitle, postAuthor, postContent);
   posts.push(post);
 
   const postID = post.id;
-
+  console.log(posts);
   // Redirect back to the homepage (or any other page)
   res.redirect(`/view?elementId=${postID}`);
 });
 
-app.post('/submit-edit', upload.single('post-image'), (req, res) => {
+app.post('/submit-edit', (req, res) => {
 
-  console.log('Form data:', req.body); // Log form data
-  console.log('File data:', req.file); // Log file data
   const postID = req.body['post-id'];
   console.log(`need to submit edit of: ${postID}`);
 
   const { 'post-title': postTitleNew, 'post-author': postAuthorNew, 'post-content': postContentNew } = req.body;
-  const postImageNew = req.file ? "uploads/" + req.file.filename : null;
-  checkAndUpdateChanges(posts, postID, postTitleNew, postAuthorNew, postContentNew, postImageNew);
+  checkAndUpdateChanges(posts, postID, postTitleNew, postAuthorNew, postContentNew);
   res.redirect(`/view?elementId=${postID}`);
 });
 

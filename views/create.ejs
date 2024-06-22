@@ -1,7 +1,7 @@
       <%- include("partials/header.ejs") %>
 
             <main>
-                  <form action="/submit" method="POST" enctype="multipart/form-data">
+                  <form action="/submit" method="POST">
                   <div class="container">
                         <h3>
                               Post creation
@@ -10,12 +10,12 @@
                         <div class="row">
                               <div class="col-8">
                                     <label for="post-title" class="form-label"></label>
-                                    <input type="text" name="post-title" class="form-control form-control-lg" id="post-title" placeholder="Post Title" value="" required="">
+                                    <input type="text" name="post-title" class="form-control form-control-lg" id="post-title" placeholder="Post Title" required="">
                               </div>
 
                               <div class="col-4 align-self-center ">
                                     <label for="post-author" class="form-label"></label>
-                                    <input type="text" name="post-author" class="form-control" id="post-author" placeholder="Author Name" value="" required="">
+                                    <input type="text" name="post-author" class="form-control" id="post-author" placeholder="Author Name" required="">
                               </div>
                         </div>
                         
@@ -23,11 +23,6 @@
                               <div class="col-8">
                                     <label for="post-content" class="form-label"></label>
                                     <textarea class="form-control" name="post-content" id="post-content" rows="8" placeholder="Content"></textarea>
-                              </div>
-                              
-                              <div class="col-4 align-self-center">
-                                    <label for="post-image" class="form-label">Add post image</label>
-                                    <input class="form-control" name="post-image" type="file" id="post-image">
                               </div>
                         </div>
 
